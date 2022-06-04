@@ -1,0 +1,158 @@
+<v-card fullscreen >
+    <v-card-title class="orange black--text">
+        Solicitar Cotización      <v-spacer></v-spacer> <v-btn @click="cerrarVentana()"><v-icon>mdi-close</v-icon></v-btn>
+    </v-card-title>
+
+    <v-card-text>
+        
+        <v-row>
+            <v-col cols="12" md="8">
+                <label>Nombre</label>
+            <v-text-field v-model="cotizacion.nombre"></v-text-field>
+             </v-col>
+             <v-col cols="12" md="4">
+                <label>Edad</label>
+            <v-select type="Number" v-model="cotizacion.edad"  :items="edad" ></v-select>
+        </v-col>
+        <v-col cols="12" md="4">
+            <label>Fecha de Nacimiento</label>
+        
+            <v-text-field type="Date" v-model="cotizacion.fechadenacimiento" ></v-text-field>
+        </v-col>
+        <v-col cols="12" md="4">
+            <label>Sexo</label>
+            <v-select :items="sexo"  v-model="cotizacion.sexo" ></v-select>
+            </v-col>
+            <v-col cols="12" md="4">
+                <label>Código Postal</label>
+                <v-text-field type="Number"  v-model="cotizacion.cp" ></v-text-field>
+                </v-col>
+    </v-row>
+        
+        <v-card>
+            <v-card-title class="orange black--text">
+                Agregar Vehiculos
+            </v-card-title>
+            <v-card-text>
+                <v-btn class="secondary" @click="addauto()"  ><v-icon class="white--text">mdi-plus</v-icon></v-btn>
+
+
+
+                <div v-if="autos"  v-for="(key,index) in autos" :key="'auto'+index">
+                    <v-row >
+                        <v-col cols="12" md="4" >
+            
+                                <v-select v-model="key.tipo" @change="seleccionamarcas($event,index)" :items="tipov" label="Tipo de Vehiculo">
+                                </v-select>
+
+                        </v-col>
+
+
+
+                        <v-col cols="12" md="4" >
+                            
+                            <v-select label="Marca" v-if="marcas[index]" :items="marcas[index]" @change="selectmodelos($event,index
+                            )" v-model="key.marca"></v-select>
+                            <v-text-field v-if="key.marca==='Otra Marca'" v-model="key.otraMarca" label="Otra Marca" ></v-text-field>    
+
+                        </v-col>
+                        <v-col cols="12" md="4">
+                                
+                            <v-select label="Modelos" v-if="modelos[index]" :items="modelos[index]" v-model="key.modelos"></v-select>
+
+                            <v-text-field v-if="key.marca==='Otra Marca' || key.modelos==='Otro Modelo'" v-model="key.otraModelo" label="Otra Modelo" ></v-text-field> 
+                          
+                        </v-col>  
+                        <v-col cols="12" md="4">
+                                
+                            <v-select label="Año" v-if="marcas[index]" :items="años" v-model="key.año"></v-select>
+                        </v-col>
+                        <v-col cols="12" md="4">
+                                
+                            <v-select label="Tipo de Uso" v-if="marcas[index]" :items="Uso" v-model="key.uso"></v-select>
+                        </v-col>  
+                        <v-col cols="12" md="4">
+
+                            <v-select label="Tipo" v-if="marcas[index]" :items="['Standar','Automatico']" v-model="key.uso"></v-select>
+                        </v-col> 
+                        <v-col cols="12" md="4">
+                                
+                            <v-textarea label="Descripción (CE 1.8L STD)" v-if="marcas[index]" v-model="key.desc"></v-textarea>
+                        </v-col> 
+                        
+
+                        <v-col cols="12" md="4">
+                                
+                            <v-text-field label="Serie (opcional)" v-if="marcas[index]" v-model="key.serie"></v-text-field>
+                        </v-col>     
+                        <v-col cols="12" md="4">
+                           <v-btn class="error" @click="deleteVehiculo(key)"><v-icon class="white--text">mdi-delete</v-icon></v-btn>
+                        </v-col>    
+                    </v-row>
+                </div>
+
+            </v-card-text>
+        </v-card><br /><br />
+        <v-card>
+        <v-card-title class="orange black--text">
+            ¿Como desea realizar su pago?
+        </v-card-title>
+        <v-card-text >
+
+            <v-row>
+                <v-col cols="12" md="6">
+                    <label>Tipo de pago</label>
+                    <v-select  v-model="cotizacion.tipopago" :items="tipopago" ></v-select>
+                </v-col>
+                <v-col cols="12" md="6">
+                    <label>Frecuencia de Pago</label>
+                    <v-select  v-model="cotizacion.frecuencia" :items="frecuencia" ></v-select>
+                </v-col>
+                </v-row>
+
+        </v-card-text>
+    </v-card>
+
+    <v-card>
+        <v-card-title class="orange black--text">
+            Datos de Contacto
+        </v-card-title>
+        <v-card-text >
+
+            <v-row>
+                <v-col cols="12" md="4">
+                    <label>Correo Electrónico</label>
+                    <v-text-field v-model="cotizacion.correo" ></v-text-field>
+                </v-col>
+                <v-col cols="12" md="4">
+                    <label>Teléfono Fijo</label>
+                    <v-text-field v-model="cotizacion.telfijo" ></v-text-field>
+                </v-col>
+                <v-col cols="12" md="4">
+                    <label>Teléfono Móvil (WhatsApp )</label>
+                    <v-text-field v-model="cotizacion.telcel" ></v-text-field>
+                </v-col>
+            </v-row>
+
+
+        </v-card-text>
+    </v-card>
+
+        <v-card-text class="text-center" >
+        <v-btn class="orange black--text" @click="EnviarSolicitud()">Solicitar Cotización</v-btn>
+    </v-card-text>
+
+    <v-dialog v-model="registroexitoso" max-width="700" persistent>
+        <v-card>
+            <v-card-title class="orange black--text text-center">
+            Registro Exitoso
+            </v-card-title>
+            <v-card-text class="display-1 text-center">
+                Su cotización fue enviada correctamente en un lapso de 24 a 48 horas podrá recibir un correo con la cotización solicitada y los pasos para poder activar su seguro 
+                <br />
+                <v-btn class="orange black--text" @click="finalizaRegistro()">Ingresar aqui</v-btn>
+            </v-card-text>
+        </v-card>
+    </v-dialog>
+    </v-card-text>
+</v-card>

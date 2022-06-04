@@ -1,0 +1,112 @@
+<v-card>
+<v-btn @click="$emit('registroCotizacion',true)" class="orange black--text"><v-icon>mdi-plus</v-icon></v-btn>
+<v-btn class="orange" @click="acceder()"><v-icon>mdi-reload</v-icon></v-btn>
+    <v-card-text >
+    <v-data-table :headers="cabecera" :items="datos">
+            <template v-slot:item.edit="{ item }">
+                <v-btn @click="verdatos(item)" class="error white--text"><v-icon>mdi-text-box-outline</v-icon></v-btn>
+            </template>
+        
+    </v-data-table>
+        
+    <v-dialog v-model="visor" fullscreen >
+        <v-card>
+            <v-card-title ref="impresion" class="primary white--text">
+                Datos de cotización <v-spacer></v-spacer> <v-btn @click="visor=false"><v-icon>mdi-close</v-icon></v-icon></v-btn>
+            </v-card-title>
+            <v-card-text class="pa-8">
+              
+
+                        <v-row class="tablaVisor">
+                            <v-col class="tabla pa-5" cols="12" md="12">
+                                <v-row>
+                                    <v-col cols="12" md="4" class="text-center">
+                                        <img src="logos/logosASLDG.png" width="150" />  
+                                    </v-col>
+                                    <v-col cols="12" md="4">
+                                    </v-col>
+                                    <v-col cols="12" md="4" class="text-center">
+                                        <img src="logos/goagentes.jpg" width="150" />
+                                    </v-col>
+                                </v-row>
+                            </v-col>    
+                            <v-col cols="12" md="12" >
+                            <h2>Formato de Cotización</h2>
+                                </v-col>
+                            <v-col cols="12" md="8" class="tabla">
+                                <b>Nombre:</b> {{visorDatos.nombre}}
+                            </v-col>
+                        
+                            <v-col cols="12" md="4" class="tabla">
+                                <b>Edad:</b> {{visorDatos.edad}}
+                            </v-col>
+
+                            <v-col cols="12" md="4" class="tabla">
+                                <b>Fecha de nacimiento:</b> {{visorDatos.fechadenacimiento}}
+                            </v-col>
+                        
+                            <v-col cols="12" md="4" class="tabla">
+                                <b>Sexo:</b> {{visorDatos.sexo}}
+                            </v-col>
+
+                            <v-col cols="12" md="4" class="tabla">
+                                <b>Código Postal:</b> {{visorDatos.cp}}
+                            </v-col>
+
+                            <v-col cols="12" md="12">
+                                
+                                <v-row>
+                                    <v-col cols="12" md="12">
+                                        <h2>Vehiculos</h2>
+                                    </v-col>
+                                    
+
+                                    <v-col class="tabla" col="12" md="12" v-for="(key,index) in visorDatos.autos" :key="'auto'+index">
+                                        <v-row>
+                                        <v-col cols="12" class="tabla" md="2">
+                                            <b>Tipo:</b>{{key.tipo}}
+                                        </v-col>
+                                        <v-col cols="12" class="tabla" md="2">
+                                          <b>Marca:</b>{{key.marca}}
+                                        </v-col> 
+                                        <v-col cols="12" class="tabla" md="2">
+                                          <b>Modelo:</b>{{key.modelos}} 
+                                        
+                                        </v-col> 
+                                          <v-col cols="12" class="tabla" md="2">
+                                          <b>Año:</b>{{key.año}} 
+                                        </v-col>
+                                        <v-col cols="12" class="tabla" md="2"> 
+                                            <b>Uso:</b>{{key.uso}} 
+                                        </v-col>
+                                          <v-col cols="12" class="tabla" md="2">
+                                          Serie:{{key.serie}}
+                                        </v-col>
+                                        </v-row>
+                                    </v-col>
+                                    <v-col cols="12" md="12">
+                                        <h2>Datos de contacto</h2>
+                                    </v-col>
+                                    <v-col cols="12" md="4" class="tabla">
+                                        <b>Correo:</b> {{visorDatos.correo}}
+                                    </v-col>
+                                    <v-col cols="12" md="4" class="tabla">
+                                        <b>Teléfono fijo:</b> {{visorDatos.telfijo}}
+                                    </v-col>
+                                    <v-col cols="12" md="4" class="tabla">
+                                        <b>Teléfono Móvil:</b> {{visorDatos.telcel}}
+                                    </v-col>
+                                </v-row>
+                            </v-col>
+
+                            <v-col cols="12" md="12">
+                      
+                    </v-col>
+                </v-row>
+
+            </v-card-text>
+
+        </v-card>
+    </v-dialog>
+    </v-card-text>
+</v-card>
